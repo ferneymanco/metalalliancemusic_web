@@ -1,1 +1,1 @@
-# static_test
+# Metal Alliance Music Web
