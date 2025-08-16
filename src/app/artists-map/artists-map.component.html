@@ -1,0 +1,31 @@
+<!--
+    Barra de herramientas: controla el filtro de peso, el layout y la búsqueda.
+    ngModel se usa sin NgModule porque el componente es standalone e importa FormsModule.
+  -->
+  <div class="toolbar">
+    <label>
+      Peso mínimo de conexión: {{ minPeso }}
+      <input type="range" min="1" [max]="maxPeso || 1" [(ngModel)]="minPeso" (input)="aplicarFiltro()" />
+    </label>
+
+    <label>
+      Layout:
+      <select [(ngModel)]="layout" (change)="reLayout()">
+        <option value="cose">cose (fuerzas)</option>
+        <option value="concentric">concentric</option>
+        <option value="circle">circle</option>
+        <option value="grid">grid</option>
+      </select>
+    </label>
+
+    <label class="search">
+      Buscar banda:
+      <input type="text" [(ngModel)]="busqueda" (keyup.enter)="enfocarBusqueda()" placeholder="p.ej. Foo Fighters" />
+      <button type="button" (click)="enfocarBusqueda()">Enfocar</button>
+    </label>
+
+    <button type="button" (click)="resetVista()">Reset vista</button>
+  </div>
+
+  <!-- contenedor donde Cytoscape inyecta el canvas SVG/HTML -->
+  <div #cyHost id="cy"></div>

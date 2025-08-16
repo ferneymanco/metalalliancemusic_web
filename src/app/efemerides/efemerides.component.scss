@@ -1,0 +1,154 @@
+.efemerides-container{
+    background-image: url('../../assets/sinister.jpg');
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: auto;
+    height: 100%;
+    padding: 1rem;
+}
+
+.subheader-item{
+    display: inline-block;
+    color: black;
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 0 .5rem;
+    background: #e1e1e1;
+    /*background: linear-gradient(to right, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0.05) 100%);*/
+    text-shadow: 3px 2px 2px #806161;
+}
+
+.subheader-item::before{
+    width: 5%;
+    height: 1.3rem;
+    background: #e1e1e1;
+}
+
+div#number {
+    width: 10%;
+    margin-right: 10%;
+}
+
+.subheader-item#number::before {
+    width: 23%;
+    position: relative;
+    content: "";
+    float: left;
+    height: 2rem;
+    background: linear-gradient(to left, #e1e1e1, transparent);
+    margin-left: -30%;
+}
+
+.subheader-item#number::after {
+    width: 23%;
+    position: relative;
+    content: "";
+    float: right;
+    height: 2rem;
+    background: linear-gradient(to right, #e1e1e1, transparent);
+    margin-right: -30%;
+}
+
+div#title {
+    width: 60%;
+}
+
+.subheader-item#title::before {
+    width: 10%;
+    position: relative;
+    content: "";
+    float: left;
+    height: 2rem;
+    background: linear-gradient(to left, #e1e1e1, transparent);
+    margin-left: -11%;
+}
+
+.subheader-item#title::after {
+    width: 10%;
+    position: relative;
+    content: "";
+    float: right;
+    height: 2rem;
+    background: linear-gradient(to right, #e1e1e1, transparent);
+    margin-right: -11%;
+}
+
+@media screen and (width < 900px) {
+    .efemerides-container {
+        background-size: contain;
+    }
+}
+
+@media screen and (width < 800px) {
+    div#number {
+        width: 15%;
+    }
+}
+
+@media screen and (width < 600px) {
+    .subheader-item{
+        font-size: 1rem;
+        height: 1.5rem;
+    }
+
+    div#number {
+        margin-right: 0;
+    }
+
+    div#title {
+        width: 70%;
+    }
+
+    .subheader-item#number::before {
+        height: 1.5rem;
+    }
+
+    .subheader-item#number::after {
+        content: none;
+    }
+
+    .subheader-item#title::before {
+        content: none;
+    }
+
+    .subheader-item#title::after {
+        height: 1.5rem;
+    }
+}
+
+@media screen and (width < 401px) {
+    .subheader-item {
+        font-size: .8rem;
+        height: 1.3rem;
+    }
+
+    .subheader-item#number::before {
+        height: 1.3rem;
+    }
+
+    .subheader-item#title::after {
+        height: 1.3rem;
+    }
+
+}
+
+p{
+    text-shadow: 2px 3px 3px #e15959;
+    color: white;
+}
+
+.efemerides-container {
+ul{
+    li:before{
+         content: "";
+         display: inline-block;
+         width: 1.5rem;
+         height: 1.5rem;
+         margin-right: 0.5rem;
+         vertical-align: middle;
+    }
+       list-style-image: url("../../assets/option_icon.svg");
+       list-style-type: none; /* Oculta la viñeta predeterminada */
+}
+}

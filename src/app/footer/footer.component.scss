@@ -1,0 +1,12 @@
+.footer {
+    text-align: center;
+}
+
+@media screen and (width < 760px) {
+    .footer {
+        margin-top: 10%;
+        p{
+            margin: 0;
+        }
+    }
+}
