@@ -31,7 +31,6 @@ export class EditorSecureComponent {
 
   private editor: any; // instancia de Quill
 
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild(CdkTextareaAutosize) autosize?: CdkTextareaAutosize;
 
   // Toolbar & whitelist (no incluyen 'clean' ni 'bullet' como formato)
@@ -51,10 +50,6 @@ export class EditorSecureComponent {
       ],
     },
     clipboard: { matchVisual: false },
-    handlers: {
-      image: () => this.handleImageClick(),
-      video: () => this.handleVideoClick(),
-    },
   };
 
   formats: string[] = [
@@ -147,6 +142,63 @@ export class EditorSecureComponent {
       Quill.register(AlignClass, true);
     }
 
+    this.modules = {
+      toolbar: {
+        container: [
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ header: 1 }, { header: 2 }],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [
+            { align: '' },
+            { align: 'center' },
+            { align: 'right' },
+            { align: 'justify' },
+          ],
+          ['link', 'code-block', 'image', 'video', 'clean'],
+        ],
+        handlers: {
+          image: function (this: any) {
+            const editor = this.quill;
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = () => {
+              const f = input.files?.[0];
+              if (!f) return;
+              const reader = new FileReader();
+              reader.onload = () => {
+                const range = editor.getSelection(true) || {
+                  index: editor.getLength(),
+                  length: 0,
+                };
+                editor.insertEmbed(range.index, 'image', reader.result, 'user');
+                editor.setSelection(range.index + 1, 0);
+              };
+              reader.readAsDataURL(f);
+            };
+            input.click();
+          },
+
+          video: function (this: any) {
+            const editor = this.quill;
+            const url = prompt('Pega URL de YouTube:') || '';
+            const embed = toYouTubeEmbed(url.trim()); // 👈 sin “this.”
+            if (!embed) {
+              alert('URL inválida.');
+              return;
+            }
+            const range = editor.getSelection(true) || {
+              index: editor.getLength(),
+              length: 0,
+            };
+            editor.insertEmbed(range.index, 'video', embed, 'user');
+            editor.setSelection(range.index + 1, 0);
+          },
+        },
+      },
+      clipboard: { matchVisual: false },
+    };
+
     this.quillReady.set(true);
   }
 
@@ -159,15 +211,6 @@ export class EditorSecureComponent {
       { emitEvent: false }
     );
     this.recalcularAutosize();
-  }
-
-  // --- Handlers del toolbar ---
-
-  // 1) Imagen: file picker -> DataURL (demo)
-  handleImageClick() {
-    if (!this.editor) return;
-    this.fileInput.nativeElement.value = '';
-    this.fileInput.nativeElement.click();
   }
 
   onFileSelected(evt: Event) {
@@ -188,23 +231,6 @@ export class EditorSecureComponent {
     reader.readAsDataURL(file);
   }
 
-  // 2) YouTube: URL -> embed
-  handleVideoClick() {
-    if (!this.editor) return;
-    const url = prompt('Pega URL de YouTube (watch, youtu.be o shorts):') || '';
-    const embed = this.toYouTubeEmbed(url.trim());
-    if (!embed) {
-      alert('URL de YouTube inválida o no permitida.');
-      return;
-    }
-    const range = this.editor.getSelection(true) || {
-      index: this.editor.getLength(),
-      length: 0,
-    };
-    this.editor.insertEmbed(range.index, 'video', embed, 'user');
-    this.editor.setSelection(range.index + 1, 0);
-  }
-
   save() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -217,35 +243,29 @@ export class EditorSecureComponent {
       description_html: bodyHtml,
     });
   }
+}
 
-  /** Convierte distintas URLs de YouTube a /embed/ID, solo YouTube permitido */
-  toYouTubeEmbed(raw: string): string | null {
-    try {
-      const u = new URL(raw);
-      const host = u.hostname.replace(/^www\./, '').toLowerCase();
-
-      // Acepta youtube.com, youtu.be
-      if (host === 'youtube.com' || host === 'm.youtube.com') {
-        // https://youtube.com/watch?v=ID
-        if (u.pathname === '/watch' && u.searchParams.get('v')) {
-          return `https://www.youtube.com/embed/${u.searchParams.get('v')}`;
-        }
-        // https://youtube.com/shorts/ID
-        if (u.pathname.startsWith('/shorts/')) {
-          const id = u.pathname.split('/')[2];
-          return id ? `https://www.youtube.com/embed/${id}` : null;
-        }
-        // https://youtube.com/embed/ID
-        if (u.pathname.startsWith('/embed/')) return u.toString();
+// <<< fuera de la clase, en el mismo .ts >>>
+function toYouTubeEmbed(raw: string): string | null {
+  try {
+    const u = new URL(raw);
+    const host = u.hostname.replace(/^www\./, '').toLowerCase();
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      if (u.pathname === '/watch' && u.searchParams.get('v')) {
+        return `https://www.youtube.com/embed/${u.searchParams.get('v')}`;
       }
-      if (host === 'youtu.be') {
-        // https://youtu.be/ID
-        const id = u.pathname.slice(1);
+      if (u.pathname.startsWith('/shorts/')) {
+        const id = u.pathname.split('/')[2];
         return id ? `https://www.youtube.com/embed/${id}` : null;
       }
-      return null;
-    } catch {
-      return null;
+      if (u.pathname.startsWith('/embed/')) return u.toString();
     }
+    if (host === 'youtu.be') {
+      const id = u.pathname.slice(1);
+      return id ? `https://www.youtube.com/embed/${id}` : null;
+    }
+    return null;
+  } catch {
+    return null;
   }
 }
