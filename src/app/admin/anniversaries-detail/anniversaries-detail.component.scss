@@ -3,21 +3,21 @@
   flex-direction: column;
   align-items: flex-start;
 }
-#anniversaries-detail-container{
+#anniversaries-detail-container {
   width: 100%;
 }
-#anniversaries-detail-form{
-    width: 100%;
-    padding: 1rem;
-    background-color: transparent;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+#anniversaries-detail-form {
+  width: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  border-radius: 8px;
+  display: flex;
+  //align-items: center;
+  flex-direction: column;
 }
 
-mat-form-field.mat-mdc-form-field.example-full-width{
-    width: 90%;
+mat-form-field.mat-mdc-form-field.example-full-width {
+  width: 90%;
 }
 
 .example-button-row {

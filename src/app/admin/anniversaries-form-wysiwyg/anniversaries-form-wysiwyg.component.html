@@ -1,0 +1,61 @@
+
+<div class="form-wrapper">
+<form [formGroup]="form" class="wrap">
+      <label class="lbl">Título</label>
+      <input
+        class="txt"
+        formControlName="title"
+        placeholder="Ej. Master of Puppets (1986)"
+      />
+
+      <!-- Solo renderiza el editor cuando Quill está listo en el navegador -->
+      @if(quillReady()){
+      <label class="lbl">Description</label>
+      <ng-container>
+        <quill-editor
+          class="quill-auto quill-slim"
+          [modules]="modules"
+          [formats]="formats"
+          (onContentChanged)="onEditorChanged($event)"
+        >
+        </quill-editor>
+      </ng-container>
+      }@else { <p>Loading editor...</p> }
+
+      <ng-template #loading>
+        <textarea
+          rows="6"
+          style="width:100%"
+          placeholder="Cargando editor…"
+        ></textarea>
+      </ng-template>
+@if(showHtmlArea()){
+      <mat-form-field appearance="outline">
+        <mat-label>HTML (opcional)</mat-label>
+        <textarea
+          matInput
+          formControlName="bodyHtml"
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="6"
+          cdkAutosizeMaxRows="30"
+          (input)="recalcularAutosize()"
+          placeholder="...contenido HTML..."
+        ></textarea>
+        <mat-hint>Se ajusta automáticamente al contenido</mat-hint>
+      </mat-form-field>
+    }
+
+      <button
+        type="button"
+        class="btn"
+        (click)="save()"
+        [disabled]="form.pending || form.invalid"
+      >
+        Save
+      </button>
+    </form>
+
+    <h3>Preview</h3>
+    <div class="preview" [innerHTML]="form.value.bodyHtml || ''"></div>
+  </div>
+

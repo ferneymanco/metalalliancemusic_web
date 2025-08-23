@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { Firestore, collection, getDocs, query, orderBy } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+} from '@angular/fire/firestore';
 import { Efemerides } from '../../types/efemerides.data';
 import { formatDateYYYYMMDD } from '../../libs/date-utils';
 
@@ -8,33 +14,34 @@ import { formatDateYYYYMMDD } from '../../libs/date-utils';
   standalone: true,
   imports: [],
   templateUrl: './efemerides.component.html',
-  styleUrl: './efemerides.component.scss'
+  styleUrl: './efemerides.component.scss',
 })
 export class EfemeridesComponent {
-
   public anniversaries: Efemerides = {
     title: '',
     date: '',
-    description: ''
-  }
+    description: '',
+  };
 
-  constructor(private firestore: Firestore ) { }
+  constructor(private firestore: Firestore) {}
 
   async ngOnInit() {
     const productosCollection = collection(this.firestore, 'anniversaries');
 
-    const anniversariesQuery = query(productosCollection, orderBy('date', 'asc'));
+    const anniversariesQuery = query(
+      productosCollection,
+      orderBy('date', 'asc')
+    );
     const querySnapshot = await getDocs(anniversariesQuery);
     querySnapshot.forEach((doc) => {
       this.anniversaries = doc.data() as Efemerides;
       this.anniversaries = this.getAnniversaries(this.anniversaries);
-        console.log(doc.id, ' => ', doc.data());
+      console.log(doc.id, ' => ', doc.data());
     });
   }
 
   getAnniversaries(anniversary: Efemerides): Efemerides {
-    anniversary.date = formatDateYYYYMMDD(anniversary.date.slice(0,-2),true); // Formatear la fecha
+    anniversary.date = formatDateYYYYMMDD(anniversary.date.slice(0, -2), true); // Formatear la fecha
     return anniversary;
   }
-
 }

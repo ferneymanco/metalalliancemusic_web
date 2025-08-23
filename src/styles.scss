@@ -1,22 +1,44 @@
-body{
-    background-color: #1a1b1d;
-    color: red;
-    font-family: 'Winky Rough', system-ui;
-    font-family: 'Winky Rough', system-ui;
-    max-width: 1200px;
-    margin: 0 auto;
+@import "quill/dist/quill.snow.css";
+
+body {
+  background-color: #1a1b1d;
+  color: red;
+  font-family: "Winky Rough", system-ui;
+  font-family: "Winky Rough", system-ui;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .home-background {
-    background-image: url('assets/background3.jpg');
-    background-position: top;
-    background-size: cover;
-    background-repeat: no-repeat;
-    
+  background-image: url("assets/background3.jpg");
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.dark{
-    background-color: #1a1b1d;;
+.dark {
+  background-color: #1a1b1d;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Mantener iconos de Quill en 18px dentro del toolbar/pickers
+.ql-toolbar.ql-snow button svg,
+.ql-toolbar .ql-picker-label svg,
+.ql-toolbar .ql-picker-item svg {
+  width: 18px !important;
+  height: 18px !important;
+  display: inline-block;
+}
+.ql-toolbar .material-symbols-outlined {
+  font-size: 18px;
+  line-height: 1;
+  vertical-align: middle;
+  font-variation-settings: "OPSZ" 18, "wght" 300; /* más delgado */
+}
