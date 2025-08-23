@@ -1,0 +1,31 @@
+<p>Anniversaries of Metal!</p>
+<div id="anniversaries-detail-container">
+  <form [formGroup]="form" id="anniversaries-detail-form">
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (date.touched && date.hasError('required')) { <mat-error>La fecha es obligatoria</mat-error> }
+      @if (date.touched && date.hasError('dateInvalid')) { <mat-error>Fecha inválida</mat-error> }
+      @if (date.touched && date.hasError('dateInFuture')) {<mat-error>No admitimos fechas futuras</mat-error>}
+    </mat-form-field><br>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+      @if (title.touched && title.hasError('required')) { <mat-error>El título es obligatorio</mat-error> }
+      @if (title.touched && title.hasError('blank')) { <mat-error>No puede estar vacío o solo espacios</mat-error> }
+      @if (title.touched && title.hasError('minlength')) { <mat-error>Mínimo 3 caracteres</mat-error> }
+      @if (title.touched && title.hasError('maxlength')) { <mat-error>Máximo 300 caracteres</mat-error> }
+    </mat-form-field><br>
+    <mat-form-field class="example-full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput cdkTextareaAutosize formControlName="description"></textarea>
+      @if (description.touched && description.hasError('maxlength')) { <mat-error></mat-error> }
+    </mat-form-field><br>
+    <div class="example-button-row">
+        <button mat-raised-button (click)="clickSave()" [disabled]="form.pending || form.invalid">Save</button>
+    </div>
+  </form>
+</div>

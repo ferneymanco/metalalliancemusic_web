@@ -28,6 +28,7 @@
 div#number {
     width: 10%;
     margin-right: 10%;
+    margin-left: 5%;
 }
 
 .subheader-item#number::before {
@@ -74,6 +75,10 @@ div#title {
     margin-right: -11%;
 }
 
+#description {
+    margin: 1rem;
+}
+
 @media screen and (width < 900px) {
     .efemerides-container {
         background-size: contain;
@@ -83,6 +88,7 @@ div#title {
 @media screen and (width < 800px) {
     div#number {
         width: 15%;
+        margin-left: 0;
     }
 }
 
@@ -94,6 +100,7 @@ div#title {
 
     div#number {
         margin-right: 0;
+        margin-left: 0;
     }
 
     div#title {

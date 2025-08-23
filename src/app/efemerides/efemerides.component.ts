@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Firestore, collection, getDocs, query, orderBy } from '@angular/fire/firestore';
 import { Efemerides } from '../../types/efemerides.data';
 import { formatDateYYYYMMDD } from '../../libs/date-utils';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-efemerides',
@@ -16,8 +15,10 @@ export class EfemeridesComponent {
   public anniversaries: Efemerides = {
     title: '',
     date: '',
-    description: ''}
-  constructor(private firestore: Firestore, private sanitizer: DomSanitizer ) { }
+    description: ''
+  }
+
+  constructor(private firestore: Firestore ) { }
 
   async ngOnInit() {
     const productosCollection = collection(this.firestore, 'anniversaries');

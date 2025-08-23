@@ -1,4 +1,5 @@
-export function formatDateYYYYMMDD(dateStr: string, short: boolean = false): string {
+export function formatDateYYYYMMDD(dateStr: string, short: boolean = false, castTooSring:boolean = false): string {
+
   if (!/^\d{8}$/.test(dateStr)) {
     throw new Error("Formato inválido, debe ser YYYYMMDD");
   }
@@ -17,4 +18,24 @@ export function formatDateYYYYMMDD(dateStr: string, short: boolean = false): str
   }
 
   return `${months[month]} ${day} de ${year}`;
+}
+
+export function dateToString(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}${month}${day}01`;
+}
+
+export function toYYYYMMDD(raw: string | Date | null | undefined): string | null {
+  if (!raw) return null;
+  if (raw instanceof Date && !isNaN(raw.getTime())) {
+    const dd = String(raw.getDate()).padStart(2, '0');
+    const mm = String(raw.getMonth() + 1).padStart(2, '0');
+    const yyyy = String(raw.getFullYear());
+    return `${yyyy}${mm}${dd}`;
+  }
+  const [yyyy, mm, dd] = (raw as string).split('-');
+  if (!yyyy || !mm || !dd) return null;
+  return `${yyyy}${mm.padStart(2, '0')}${dd.padStart(2, '0')}`;
 }

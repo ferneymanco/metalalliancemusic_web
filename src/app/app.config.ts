@@ -26,6 +26,7 @@ firebaseInitializeApp(firebaseConfig);
 
 import { provideClientHydration } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +34,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideFirebaseApp(() => firebaseInitializeApp(environment.firebaseConfig)),
-    provideFirestore(() => getFirestore()),
+    provideFirestore(() => getFirestore()), provideAnimationsAsync(),
   ]
 };

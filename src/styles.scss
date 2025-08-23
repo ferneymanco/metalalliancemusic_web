@@ -3,6 +3,8 @@ body{
     color: red;
     font-family: 'Winky Rough', system-ui;
     font-family: 'Winky Rough', system-ui;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .home-background {
@@ -10,9 +12,11 @@ body{
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
-    margin: 0;
+    
 }
 
 .dark{
     background-color: #1a1b1d;;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
